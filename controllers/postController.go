@@ -8,10 +8,7 @@ import (
 )
 
 func CreatePost(c *gin.Context) {
-	var body struct {
-		Body  string `json:"body" binding:"required"`
-		Title string `json:"title" binding:"required"`
-	}
+	var body models.ReqBody
 	if err := c.Bind(&body); err != nil {
 		c.Status(400)
 		return
@@ -55,10 +52,7 @@ func PostsShow(c *gin.Context) {
 func PostsUpdate(c *gin.Context) {
 	// Get ID of URL
 	id := c.Param("id")
-	var body struct {
-		Body  string `json:"body" binding:"required"`
-		Title string `json:"title" binding:"required"`
-	}
+	var body models.ReqBody
 	if err := c.Bind(&body); err != nil {
 		c.Status(400)
 		return
@@ -74,5 +68,13 @@ func PostsUpdate(c *gin.Context) {
 	c.JSON(200, gin.H{
 		"post": post,
 	})
+}
 
+func PostsDelete(c *gin.Context) {
+	// Get ID of URL
+	id := c.Param("id")
+
+	database.DB.Delete(&models.Post{}, id)
+
+	c.Status(200)
 }
