@@ -18,6 +18,9 @@ func init() {
 
 func main() {
 	router := gin.Default()
-	router.GET("/ping", controllers.Ping)
+	router.POST("/posts", controllers.CreatePost)
+	router.GET("/posts", controllers.PostsIndex)
+	router.GET("/posts/:id", controllers.PostsShow)
+	router.PUT("/posts/:id", controllers.PostsUpdate)
 	router.Run()
 }
